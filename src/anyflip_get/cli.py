@@ -4,17 +4,7 @@ from urllib import request
 import os
 
 
-@click.command()
-@click.argument('source')
-@click.option('--pages',
-              type=click.INT,
-              prompt='How many pages to download',
-              help='Number of pages to download.')
-@click.option('--output',
-              type=click.Path(writable=True),
-              help='Where to save the downloaded files')
-def cli(source, pages, output):
-    """SOURCE example: https://online.anyflip.com/xxxx/yyyy"""
+def download(source, pages, output):
     dirname = output
     if not dirname:
         dirname = os.getcwd()
@@ -36,6 +26,20 @@ def cli(source, pages, output):
             downloaded += 1
         click.echo(f'Dowloaded page {i}', err=True)
     click.echo(f'{downloaded} pages saved to {dirname}', err=True)
+
+
+@click.command()
+@click.argument('source')
+@click.option('--pages',
+              type=click.INT,
+              prompt='How many pages to download',
+              help='Number of pages to download.')
+@click.option('--output',
+              type=click.Path(writable=True),
+              help='Where to save the downloaded files')
+def cli(source, pages, output):
+    """SOURCE example: https://online.anyflip.com/xxxx/yyyy"""
+    download(source, pages, output)
 
 
 def main():
