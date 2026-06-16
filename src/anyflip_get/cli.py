@@ -4,7 +4,7 @@ from urllib import request
 import os
 
 
-def download(source, pages, output):
+def download(source, pages, output, verbose):
     dirname = output
     if not dirname:
         dirname = os.getcwd()
@@ -24,8 +24,10 @@ def download(source, pages, output):
             raise e
         else:
             downloaded += 1
-        click.echo(f'Dowloaded page {i}', err=True)
-    click.echo(f'{downloaded} pages saved to {dirname}', err=True)
+        if verbose:
+            click.echo(f'Dowloaded page {i}', err=True)
+    if verbose:
+        click.echo(f'{downloaded} pages saved to {dirname}', err=True)
 
 
 @click.command()
@@ -37,9 +39,12 @@ def download(source, pages, output):
 @click.option('--output',
               type=click.Path(writable=True),
               help='Where to save the downloaded files')
-def cli(source, pages, output):
+@click.option('--verbose',
+              is_flag=True,
+              help='Verbose output')
+def cli(source, pages, output, verbose):
     """SOURCE example: https://online.anyflip.com/xxxx/yyyy"""
-    download(source, pages, output)
+    download(source, pages, output, verbose)
 
 
 def main():
