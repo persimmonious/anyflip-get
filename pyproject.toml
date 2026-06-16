@@ -1,7 +1,23 @@
 [project]
-name = "anyflip-downloader"
+name = "anyflip-get"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.11"
-dependencies = []
+dependencies = [
+    "click>=8.4.1",
+    "rich>=15.0.0",
+]
+
+[tool.uv]
+package = true
+
+[project.scripts]
+anyflip-get = "anyflip_get.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/anyflip_get"]
