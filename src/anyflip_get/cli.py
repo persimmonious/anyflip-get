@@ -32,16 +32,17 @@ def download(source, pages, output, verbose):
 
 @click.command()
 @click.argument('source')
-@click.option('--pages',
+@click.option('--pages', '-p',
               type=click.INT,
               prompt='How many pages to download',
               help='Number of pages to download.')
-@click.option('--output',
+@click.option('--output', '-o',
               type=click.Path(writable=True),
               help='Where to save the downloaded files')
-@click.option('--verbose',
+@click.option('--verbose', '-v',
               is_flag=True,
               help='Verbose output')
+@click.version_option()
 def cli(source, pages, output, verbose):
     """SOURCE example: https://online.anyflip.com/xxxx/yyyy"""
     download(source, pages, output, verbose)
