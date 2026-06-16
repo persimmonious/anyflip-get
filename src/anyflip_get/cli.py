@@ -2,7 +2,6 @@ import click
 from urllib import request
 import os
 import random
-import sys
 
 
 @click.command()
@@ -20,8 +19,8 @@ def cli(source, pages):
         url = f'{source}/files/mobile/{i}.jpg'
         filename = f'{dest}/{i}.jpg'
         request.urlretrieve(url, filename)
-        print(f'Dowloaded page {i}', file=sys.stderr)
-    print('Done!', file=sys.stderr)
+        click.echo(f'Dowloaded page {i}', err=True)
+    click.echo('Done!', err=True)
 
 
 def main():
