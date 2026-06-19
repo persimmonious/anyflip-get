@@ -14,7 +14,7 @@ dependencies = [
 package = true
 
 [project.scripts]
-anyflip-get = "anyflip_get.cli:main"
+anyflip-get = "anyflip_get.cli:cli"
 
 [build-system]
 requires = ["hatchling"]

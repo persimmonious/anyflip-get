@@ -87,7 +87,3 @@ def cli(source, pages, output, verbose, pdf):
         download_to_pdf(source, pages, output, verbose)
     else:
         download_as_pages(source, pages, output, verbose)
-
-
-def main():
-    cli()
