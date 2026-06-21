@@ -8,22 +8,25 @@ import tempfile
 
 
 def download_jpgs(source, pages, dest, verbose):
-    downloaded = 0
+    failed = []
     for i in range(1, pages + 1):
         url = f'{source}/files/mobile/{i}.jpg'
         filename = os.path.join(dest, f'{i}.jpg')
         try:
             request.urlretrieve(url, filename)
-        except urllib.error.URLError as e:
-            raise e
-        except urllib.error.ContentTooShortError as e:
-            raise e
+        except urllib.error.URLError:
+            if verbose:
+                click.echo(f'Failed to download page {i}!', err=True)
+            failed.append(i)
+        except urllib.error.ContentTooShortError:
+            if verbose:
+                click.echo(f'Failed to download page {i}!', err=True)
+            failed.append(i)
         else:
-            downloaded += 1
             if verbose:
                 click.echo(f'Dowloaded page {i}.', err=True)
 
-    return downloaded
+    return failed
 
 
 def create_pdf(tmp_dir, pages, pdf_dest):
@@ -39,8 +42,8 @@ def download_as_pages(source, pages, output, verbose):
     dest = os.path.abspath(dest)
     if not os.path.exists(dest):
         os.mkdir(dest)
-    downloaded = download_jpgs(source, pages, dest, verbose)
-    failed = pages - downloaded
+    failed = len(download_jpgs(source, pages, dest, verbose))
+    downloaded = pages - failed
     if verbose:
         click.echo(f'{downloaded} pages saved to {dest}.', err=True)
         if failed > 0:
@@ -50,10 +53,10 @@ def download_as_pages(source, pages, output, verbose):
 def download_to_pdf(source, pages, pdf_dest, verbose):
     pdf_dest = os.path.abspath(pdf_dest)
     with tempfile.TemporaryDirectory() as tmp_dir:
-        downloaded = download_jpgs(source, pages, tmp_dir, verbose)
-        failed = pages - downloaded
+        failed = len(download_jpgs(source, pages, tmp_dir, verbose))
         if failed > 0:
-            click.echo('Download incomplete! PDF creation aborted.', err=True)
+            click.echo(f'Download incomplete! Failed to download {
+                       failed} pages. PDF creation aborted.', err=True)
             sys.exit(1)
         create_pdf(tmp_dir, pages, pdf_dest)
         if verbose:
