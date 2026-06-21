@@ -24,7 +24,7 @@ def download_jpgs(source, pages, dest, verbose):
             failed.append(i)
         else:
             if verbose:
-                click.echo(f'Dowloaded page {i}.', err=True)
+                click.echo(f'Downloaded page {i}.', err=True)
 
     return failed
 
