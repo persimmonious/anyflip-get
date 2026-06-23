@@ -55,8 +55,8 @@ def download_to_pdf(source, pages, pdf_dest, verbose):
     with tempfile.TemporaryDirectory() as tmp_dir:
         failed = len(download_jpgs(source, pages, tmp_dir, verbose))
         if failed > 0:
-            click.echo(f'Download incomplete! Failed to download {
-                       failed} pages. PDF creation aborted.', err=True)
+            click.echo(f'Download incomplete! Failed to download \
+                       {failed} pages. PDF creation aborted.', err=True)
             sys.exit(1)
         create_pdf(tmp_dir, pages, pdf_dest)
         if verbose:
