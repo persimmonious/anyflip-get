@@ -14,11 +14,7 @@ def download_jpgs(source, pages, dest, verbose):
         filename = os.path.join(dest, f'{i}.jpg')
         try:
             request.urlretrieve(url, filename)
-        except urllib.error.URLError:
-            if verbose:
-                click.echo(f'Failed to download page {i}!', err=True)
-            failed.append(i)
-        except urllib.error.ContentTooShortError:
+        except urllib.error.URLError | urllib.error.ContentTooShortError:
             if verbose:
                 click.echo(f'Failed to download page {i}!', err=True)
             failed.append(i)
